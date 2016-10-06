@@ -1,9 +1,14 @@
+#SigMap
+Графовый движок, предназначенный для визуализации графов на карте с последующим их ранжированием по цветам и размерам.
+Благодаря sigma.js и кастомным WebGL-рендерщикам приложение позволяет отрисовывать большое количество узлов и ребер.
+Имеется режим "граф" и режим "карта", а также переключение между ними, пока, на уровне консоли.
+
 Запускать с URL-параметрами (необязательно):
-    1. "name" - в котором содержится путь до файла gexf. Например: "name=chinaZD.gexf"
+    1. "name" - в котором содержится путь до файла gexf. Например: "name=TEST.gexf"
     2. "mode" - режим отображения: "graph" или "map"
 
 Например:
-http://localhost:63343/index.html?name=chinaZD.gexf&mode=graph
+http://localhost:63343/index.html?name=TEST.gexf&mode=graph
 
 Если параметры будут пусты, то по-умолчанию используется:
     name="input.gexf"
@@ -40,5 +45,3 @@ http://localhost:63343/index.html?name=chinaZD.gexf&mode=graph
     Лейблы
     sigma.mode.getInstance().settings('drawLabels', !sigma.mode.getInstance().settings('drawLabels')); sigma.mode.getInstance().render(); // nodes
     sigma.mode.getInstance().settings('drawEdgeLabels', !sigma.mode.getInstance().settings('drawEdgeLabels')); sigma.mode.getInstance().render(); // edges
-
-# SigMap
