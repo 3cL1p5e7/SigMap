@@ -69,7 +69,7 @@ window.onload = function() {
   // Если true - рисует как принято у сигмы, если false - облегченный рендерщик для больших данных при mouse событиях
   sigma.mode.graph.standartCaptor = false;
   var mode = sigma.utils.queryString.mode || 'map';
-  var filename = sigma.utils.queryString.name || 'input.gexf';
+  var filename = sigma.utils.queryString.name || 'input.json';
 
   sigma.utils.loader(true);
   sigma.utils.fetchFile('settings.json', function (respText) {

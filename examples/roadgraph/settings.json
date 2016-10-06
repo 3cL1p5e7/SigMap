@@ -1,7 +1,7 @@
 {
   "standartCaptor":false,
   "mode":"map",
-  "dataFileName":"static/Json/input.json",
+  "dataFileName":"../../static/Json/input.json",
   "sigmaSettings":{
     "nodesPowRatio":0,
     "edgesPowRatio":0,
