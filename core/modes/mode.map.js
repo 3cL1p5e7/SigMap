@@ -70,7 +70,7 @@ var map;
     },
     initData: function(data){
       console.log('start nodes');
-      var sizeBox = [0, 0];
+      var sizeBox = [];
       var graphManager = sigma.mode.graphManager;
       for (var i = 0; i < data.nodes.length; i++) {
         if(data.nodes[i][sigma.mode.mask]){
@@ -109,10 +109,14 @@ var map;
           lng: latLng.lng,
           value: data.nodes[i][sigma.mode.mask]
         });
-        if (sizeBox[0] >= data.nodes[i]['size'])
+        if (!sizeBox[0] || sizeBox[0] >= data.nodes[i]['size'])
           sizeBox[0] = data.nodes[i]['size'];
-        if (sizeBox[1] <= data.nodes[i]['size'])
+        if (!sizeBox[1] || sizeBox[1] <= data.nodes[i]['size'])
           sizeBox[1] = data.nodes[i]['size'];
+        if (sizeBox[0] === sizeBox[1]) {
+          sizeBox[0] -= 1;
+          sizeBox[1] += 1;
+        }
       }
       sigma.mode.graphManager.validateNodeSizes(sizeBox, [sigma.visual_settings.node.min_size, sigma.visual_settings.node.max_size]);
       console.log('nodes success');

@@ -2,44 +2,44 @@ var mapContainer = '.leaflet-overlay-pane';
 var graphContainer = '.graph-container';
 
 window.onload = function() {
-  sigma.visual_settings = {
-    border: {
-      border_width_per: 0.3 // процент от радиуса ноды, который занимает border
-    },
-    node: {
-      label: 'label', // поле для лейбла
-      defaultColor: '#3482B9',
-      transparency: 1.0,
-      rangers:{
-        sizing:{
-          field: ''
-        },
-        coloring:{
-          field: '',
-          range: ['#ffffff', '#f02020']
-        }
-      },
-      min_size: 4,
-      max_size: 12
-    },
-    edge:{
-      label: 'label',
-      arrowSize: 8.0, // размер стрелки для webgl шейдера
-      transparency: 1.0,
-      defaultColor: '#3482B9',
-      rangers:{
-        sizing:{
-          field: ''
-        },
-        coloring:{
-          field: '',
-          range: ['#000000', '#f02020']
-        }
-      },
-      min_size: 0.5,
-      max_size: 3
-    }
-  };
+  // sigma.visual_settings = {
+  //   border: {
+  //     border_width_per: 0.3 // процент от радиуса ноды, который занимает border
+  //   },
+  //   node: {
+  //     label: 'label', // поле для лейбла
+  //     defaultColor: '#3482B9',
+  //     transparency: 1.0,
+  //     rangers:{
+  //       sizing:{
+  //         field: ''
+  //       },
+  //       coloring:{
+  //         field: '',
+  //         range: ['#ffffff', '#f02020']
+  //       }
+  //     },
+  //     min_size: 4,
+  //     max_size: 12
+  //   },
+  //   edge:{
+  //     label: 'label',
+  //     arrowSize: 8.0, // размер стрелки для webgl шейдера
+  //     transparency: 1.0,
+  //     defaultColor: '#3482B9',
+  //     rangers:{
+  //       sizing:{
+  //         field: ''
+  //       },
+  //       coloring:{
+  //         field: '',
+  //         range: ['#000000', '#f02020']
+  //       }
+  //     },
+  //     min_size: 0.5,
+  //     max_size: 3
+  //   }
+  // };
   // settings for sigmajs
   var sigmaSettings = {
     nodesPowRatio: 0, // no scale nodes

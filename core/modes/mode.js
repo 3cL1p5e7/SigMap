@@ -106,24 +106,24 @@
         var currentLng = sigma.utils.getMaskedValue(node, null, 'lng');
         if(!this.lat.max){
           this.lat = {
-            max: currentLat,
-            min: currentLat
+            max: parseFloat(currentLat),
+            min: parseFloat(currentLat)
           };
           this.lng = {
-            max: currentLng,
-            min: currentLng
+            max: parseFloat(currentLng),
+            min: parseFloat(currentLng)
           };
         }
         else {
-          if(this.lat.max < currentLat)
-            this.lat.max = currentLat;
-          if(this.lat.min > currentLat)
-            this.lat.min = currentLat;
+          if(this.lat.max < parseFloat(currentLat))
+            this.lat.max = parseFloat(currentLat);
+          if(this.lat.min > parseFloat(currentLat))
+            this.lat.min = parseFloat(currentLat);
 
-          if(this.lng.max < currentLng)
-            this.lng.max = currentLng;
-          if(this.lng.min > currentLng)
-            this.lng.min = currentLng;
+          if(this.lng.max < parseFloat(currentLng))
+            this.lng.max = parseFloat(currentLng);
+          if(this.lng.min > parseFloat(currentLng))
+            this.lng.min = parseFloat(currentLng);
         }
       },
       addEdge: function(edge){
@@ -141,7 +141,7 @@
         this.edges.push($.extend(def, edge));
       },
       validateNodeSizes: function(bounds, minmax){
-        sigma.visual.utils.evaluateBounds(
+        sigma.utils.evaluateBounds(
           this.nodes,
           bounds,
           minmax

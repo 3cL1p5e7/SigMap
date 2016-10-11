@@ -1,7 +1,7 @@
 {
   "standartCaptor":false,
   "mode":"map",
-  "dataFileName":"../../static/Json/input.json",
+  "dataFileName":"../../static/Json/china.json",
   "sigmaSettings":{
     "nodesPowRatio":0,
     "edgesPowRatio":0,
@@ -24,7 +24,7 @@
     "defaultHoverLabelBGColor":"#2D7FB6",
     "defaultHoverLabelColor":"#2D7FB6",
     "labelHoverBGColor":"node",
-    "webglOversamplingRatio":1
+    "webglOversamplingRatio": 1.2
   },
   "visualSettings":{
     "border":{
@@ -47,8 +47,8 @@
           ]
         }
       },
-      "min_size": 4,
-      "max_size": 6
+      "min_size": 3,
+      "max_size": 10
     },
     "edge":{
       "label":"label",

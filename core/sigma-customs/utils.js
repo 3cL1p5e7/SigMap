@@ -242,7 +242,8 @@ sigma.utils.getMaskedValue = function (obj, mask, field) {
 
 sigma.utils.getCenterGraph = function(lats, lngs){
   if(lats.max && lats.min && lngs.max && lngs.min){
-    return L.latLng(lats.min + (lats.max - lats.min) / 2, lngs.min + (lngs.max - lngs.min) / 2);
+    return L.latLng(lats.min + (lats.max - lats.min) / 2,
+      lngs.min + (lngs.max - lngs.min) / 2);
   }
 };
 
@@ -291,4 +292,19 @@ sigma.utils.fetchFile = function(filename, callback){
       callback(xhr.responseText);
     }
   };
+};
+
+sigma.utils.evaluateBounds = function (elements, bounds, minmax) {
+  var getSize = function(element){
+    var size = element.size;
+    if (!size)
+      return minmax[0];
+    size = minmax[0] +
+      (minmax[1] - minmax[0]) * (size - bounds[0]) / (bounds[1] - bounds[0]);
+    return size;
+  };
+
+  for(var i=0; i < elements.length; i++) {
+    elements[i].size = getSize(elements[i]);
+  }
 };

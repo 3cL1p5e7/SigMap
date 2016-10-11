@@ -1,43 +1,7 @@
 ;(function() {
   'use strict';
-  sigma.visual_settings = {
-    border: {
-      border_width_per: 0.3
-    },
-    node: {
-      label: 'label',
-      defaultColor: '#3482B9',
-      transparency: 1.0,
-      rangers:{
-        sizing:{
-          field: 'critical'
-        },
-        coloring:{
-          field: 'critical',
-          range: ['#ffffff', '#f02020']
-        }
-      },
-      min_size: 6,
-      max_size: 12
-    },
-    edge:{
-      label: 'label',
-      arrowSize: 8.0,
-      transparency: 1.0,
-      defaultColor: '#3482B9',
-      rangers:{
-        sizing:{
-          field: 'critical'
-        },
-        coloring:{
-          field: 'critical',
-          range: ['#ffffff', '#f02020']
-        }
-      },
-      min_size: 1,
-      max_size: 5
-    }
-  };
+  sigma.visual_settings = {};
+
   sigma.visual = {
     inverseColorNode: false,
     inverseSizeNode: false,
@@ -86,7 +50,8 @@
       }
 
       this.rangeColorNode = true;
-      this.inverseColorNode = typeof inverse == 'undefined' ? this.inverseColorNode : Boolean(inverse);
+      this.inverseColorNode = typeof inverse == 'undefined' ?
+        this.inverseColorNode : Boolean(inverse);
       sigma.mode.getInstance().refresh({skipIndexation: true});
     },
     disableRangeNodeColor: function () {
@@ -106,7 +71,8 @@
       var getSize;
       var self = this;
 
-      this.inverseSizeNode = typeof inverse == 'undefined' ? this.inverseSizeNode : Boolean(inverse);
+      this.inverseSizeNode = typeof inverse == 'undefined' ?
+        this.inverseSizeNode : Boolean(inverse);
       if(this.inverseSizeNode){
         getSize = function(node, ids){
           if(typeof ids != 'undefined' && !ids[node.id]) {
@@ -261,23 +227,6 @@
     disableEdgeLabels: function () {
       sigma.mode.getInstance().settings('drawEdgeLabels', false);
       sigma.mode.getInstance().render(); // nodes
-    },
-
-    utils: {
-      evaluateBounds: function (elements, bounds, minmax) {
-        var getSize = function(element){
-          var size = element.size;
-          if (!size)
-            return minmax[0];
-          size = minmax[0] +
-            (minmax[1] - minmax[0]) * (size - bounds[0]) / (bounds[1] - bounds[0]);
-          return size;
-        };
-
-        for(var i=0; i < elements.length; i++) {
-          elements[i].size = getSize(elements[i]);
-        }
-      }
     }
   };
 })();
