@@ -10,6 +10,7 @@ var map;
     defaultCenter: [56.0487578359952, 37.60345458984374],
     initZoom: 18,
     settings: {autoRescale: false},
+    startZoom: 7,
 
     sizeBox: {},
 
@@ -45,7 +46,7 @@ var map;
       map.on('zoomend', mapHandler.zoomHandler);
       map.on('moveend', mapHandler.moveHandler);
 
-      map.setZoom(7); // start zooming
+      map.setZoom(this.startZoom); // start zooming
       this.updateSizeBox();
       console.log('ready');
     },
@@ -76,7 +77,7 @@ var map;
         if(data.nodes[i][sigma.mode.mask]){
           _.each(data.nodes[i][sigma.mode.mask], function (value, key) {
             if(graphManager.model.node[key])
-              data.nodes[i][sigma.mode.mask] = graphManager.renameProperty(data.nodes[i][sigma.mode.mask], key, graphManager.model.node[key]);
+              data.nodes[i][sigma.mode.mask] = sigma.utils.renameProperty(data.nodes[i][sigma.mode.mask], key, graphManager.model.node[key]);
           });
         }
         var coords = {};

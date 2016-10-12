@@ -1,6 +1,19 @@
 ;(function(undefined) {
   'use strict';
 
+  sigma.utils.renameProperty = function (obj, oldName, newName) {
+    // Do nothing if the names are the same
+    if (oldName == newName) {
+      return obj;
+    }
+    // Check for the old property name to avoid a ReferenceError in strict mode.
+    if (obj.hasOwnProperty(oldName)) {
+      obj[newName] = obj[oldName];
+      delete obj[oldName];
+    }
+    return obj;
+  };
+
   sigma.mode = {
     mask: 'attributes',
     graphManager: {
@@ -15,18 +28,6 @@
       defaultNode: {},
       defaultEdge: {},
 
-      renameProperty: function (obj, oldName, newName) {
-        // Do nothing if the names are the same
-        if (oldName == newName) {
-          return obj;
-        }
-        // Check for the old property name to avoid a ReferenceError in strict mode.
-        if (obj.hasOwnProperty(oldName)) {
-          obj[newName] = obj[oldName];
-          delete obj[oldName];
-        }
-        return obj;
-      },
       init: function (model) {
         if(model){
           var node = {};
@@ -102,28 +103,28 @@
         this.nodes.push($.extend(def, node));
 
         // info for center graph by lat lag
-        var currentLat = sigma.utils.getMaskedValue(node, null, 'lat');
-        var currentLng = sigma.utils.getMaskedValue(node, null, 'lng');
+        var currentLat = parseFloat(sigma.utils.getMaskedValue(node, null, 'lat'));
+        var currentLng = parseFloat(sigma.utils.getMaskedValue(node, null, 'lng'));
         if(!this.lat.max){
           this.lat = {
-            max: parseFloat(currentLat),
-            min: parseFloat(currentLat)
+            max: currentLat,
+            min: currentLat
           };
           this.lng = {
-            max: parseFloat(currentLng),
-            min: parseFloat(currentLng)
+            max: currentLng,
+            min: currentLng
           };
         }
         else {
-          if(this.lat.max < parseFloat(currentLat))
-            this.lat.max = parseFloat(currentLat);
-          if(this.lat.min > parseFloat(currentLat))
-            this.lat.min = parseFloat(currentLat);
+          if(this.lat.max < currentLat)
+            this.lat.max = currentLat;
+          if(this.lat.min > currentLat)
+            this.lat.min = currentLat;
 
-          if(this.lng.max < parseFloat(currentLng))
-            this.lng.max = parseFloat(currentLng);
-          if(this.lng.min > parseFloat(currentLng))
-            this.lng.min = parseFloat(currentLng);
+          if(this.lng.max < currentLng)
+            this.lng.max = currentLng;
+          if(this.lng.min > currentLng)
+            this.lng.min = currentLng;
         }
       },
       addEdge: function(edge){
@@ -147,14 +148,6 @@
           minmax
         );
       }
-    },
-    graph: {
-      activate: function(){},
-      deactivate: function(){}
-    },
-    map: {
-      activate: function(){},
-      deactivate: function(){}
     },
     activated: null,
     init: function(containers, settings){

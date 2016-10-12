@@ -86,9 +86,9 @@ window.onload = function() {
       filename = externalSettings.dataFileName;
 
     sigma.utils.fetchFile(filename, function (respText) {
-      var gexfGraph = JSON.parse(respText);
+      var jsonGraph = JSON.parse(respText);
       sigma.mode.init({map: mapContainer, graph: graphContainer}, sigmaSettings);
-      sigma.mode.activate(mode, gexfGraph);
+      sigma.mode.activate(mode, jsonGraph);
 
       var sigmaInstance = sigma.mode.getInstance();
       sigmaInstance.bind('overNode outNode clickNode doubleClickNode rightClickNode', function(e) {

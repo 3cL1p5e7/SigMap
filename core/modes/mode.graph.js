@@ -57,7 +57,7 @@
         parent.removeEventListener('mousedown', graphHandler.downHandler, false);
         parent.removeEventListener('mouseup', graphHandler.upHandler, false);
       }
-      currentBox.empty().hide();
+      currentBox.empty().hide(); // TODO comment me plz
       if(this.instance) this.instance.kill();
     },
     isStandartCaptor: function() {
@@ -82,7 +82,7 @@
         if(data.nodes[i][sigma.mode.mask]){
           _.each(data.nodes[i][sigma.mode.mask], function (value, key) {
             if(graphManager.model.node[key])
-              data.nodes[i][sigma.mode.mask] = graphManager.renameProperty(data.nodes[i][sigma.mode.mask], key, graphManager.model.node[key]);
+              data.nodes[i][sigma.mode.mask] = sigma.utils.renameProperty(data.nodes[i][sigma.mode.mask], key, graphManager.model.node[key]);
           });
         }
 

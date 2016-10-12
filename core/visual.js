@@ -2,6 +2,18 @@
   'use strict';
   sigma.visual_settings = {};
 
+  sigma.utils.getSize = function(element, mask, field, settings, sizing, invert) {
+    var size = parseFloat(sigma.utils.getMaskedValue(element, mask, field)) || sizing.defaultValue;
+
+    if (invert)
+      size = settings.min_size +
+        (settings.max_size - settings.min_size) * (sizing.max - size) / (sizing.max - sizing.min);
+    else
+      size = settings.min_size +
+        (settings.max_size - settings.min_size) * (size - sizing.min) / (sizing.max - sizing.min);
+    return size;
+  };
+
   sigma.visual = {
     inverseColorNode: false,
     inverseSizeNode: false,
@@ -68,40 +80,15 @@
       if(!current_sizing.field)
         return;
 
-      var getSize;
-      var self = this;
-
       this.inverseSizeNode = typeof inverse == 'undefined' ?
         this.inverseSizeNode : Boolean(inverse);
-      if(this.inverseSizeNode){
-        getSize = function(node, ids){
-          if(typeof ids != 'undefined' && !ids[node.id]) {
-            return sigma.visual_settings.node.max_size;
-          }
-          var size = sigma.utils.getMaskedValue(node, self.mask, current_sizing.field)
-                      || sizing.defaultValue;
-          size = sigma.visual_settings.node.min_size +
-            (sigma.visual_settings.node.max_size - sigma.visual_settings.node.min_size) * (sizing.max - size) / (sizing.max - sizing.min);
-          return size;
-        };
-      }
-      else{
-        getSize = function(node, ids){
-          if(typeof ids != 'undefined' && !ids[node.id]) {
-            return sigma.visual_settings.node.min_size;
-          }
-          var size = sigma.utils.getMaskedValue(node, self.mask, current_sizing.field)
-              || sizing.defaultValue;
-          size = sigma.visual_settings.node.min_size +
-            (sigma.visual_settings.node.max_size - sigma.visual_settings.node.min_size) * (size - sizing.min) / (sizing.max - sizing.min);
-          return size;
-        };
-      }
 
       var nodes = sigma.mode.getInstance().graph.nodes();
       var sizing = sigma.utils.getFieldBounds(current_sizing.field, nodes);
       for(var i=0; i<nodes.length; i++) {
-        nodes[i][this.sizeRangerField] = getSize(nodes[i]);
+        nodes[i][this.sizeRangerField] = sigma.utils.getSize(
+          nodes[i], this.mask, current_sizing.field,
+          sigma.visual_settings.node, sizing, this.inverseSizeNode);
       }
       sigma.mode.getInstance().refresh({skipIndexation: true});
     },
@@ -148,33 +135,16 @@
       if(!current_sizing.field)
         return;
 
-      var getSize;
-      var self = this;
-      this.inverseSizeEdge = typeof inverse == 'undefined' ? this.inverseSizeEdge : Boolean(inverse);
-      if(this.inverseSizeEdge){
-        getSize = function(edge){
-          var size = sigma.utils.getMaskedValue(edge, self.mask, current_sizing.field)
-              || sizing.defaultValue;
-          size = sigma.visual_settings.edge.min_size +
-            (sigma.visual_settings.edge.max_size - sigma.visual_settings.edge.min_size) * (sizing.max - size) / (sizing.max - sizing.min);
-          return size;
-        };
-      }
-      else{
-        getSize = function(edge){
-          var size = sigma.utils.getMaskedValue(edge, self.mask, current_sizing.field)
-              || sizing.defaultValue;
-          size = sigma.visual_settings.edge.min_size +
-            (sigma.visual_settings.edge.max_size - sigma.visual_settings.edge.min_size) * (size - sizing.min) / (sizing.max - sizing.min);
-          return size;
-        };
-      }
+      this.inverseSizeEdge = typeof inverse == 'undefined' ?
+        this.inverseSizeEdge : Boolean(inverse);
 
       var edges = sigma.mode.getInstance().graph.edges();
       var sizing = sigma.utils.getFieldBounds(current_sizing.field, edges);
 
       for(var i=0; i<edges.length; i++) {
-        edges[i][this.sizeRangerField] = getSize(edges[i]);
+        edges[i][this.sizeRangerField] = sigma.utils.getSize(
+          edges[i], this.mask, current_sizing.field,
+          sigma.visual_settings.edge, sizing, this.inverseSizeEdge);
       }
       sigma.mode.getInstance().refresh({skipIndexation: true});
     },
@@ -196,9 +166,9 @@
       var nodes = sigma.mode.getInstance().graph.nodes();
       for (var i = 0; i < nodes.length; i++) {
         var label = sigma.utils.getMaskedValue(nodes[i], this.mask, sigma.visual_settings.node.label);
-        nodes[i][this.labelField] = (label != undefined ? label : '').toString();
+        nodes[i][this.labelField] = (label || '').toString();
       }
-      if(s && isDraw) {
+      if(isDraw) {
         sigma.mode.getInstance().settings('drawLabels', true);
         sigma.mode.getInstance().render(); // nodes
       }
@@ -217,9 +187,9 @@
       var edges = sigma.mode.getInstance().graph.edges();
       for (var i = 0; i < edges.length; i++) {
         var label = sigma.utils.getMaskedValue(edges[i], this.mask, sigma.visual_settings.edge.label);
-        edges[i][this.labelField] = (label != undefined ? label : '').toString();
+        edges[i][this.labelField] = (label || '').toString();
       }
-      if(s && isDraw) {
+      if(isDraw) {
         sigma.mode.getInstance().settings('drawEdgeLabels', true);
         sigma.mode.getInstance().render(); // edges
       }
